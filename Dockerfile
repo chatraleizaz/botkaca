@@ -1,27 +1,27 @@
-# Stage 1: Prepare environment and install dependencies
+# Stage 1: Build dependencies
 FROM alpine:3.19 as prepare_env
 WORKDIR /app
 
-# Install build dependencies
+# Install build dependencies, including git
 RUN apk --no-cache -q add \
-    python3 python3-dev py3-pip libffi libffi-dev musl-dev gcc
+    python3 python3-dev py3-pip libffi libffi-dev musl-dev gcc git
 
 # Create virtual environment
 RUN python3 -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH" VIRTUAL_ENV="/app/venv"
 
-# Upgrade pip in the virtual environment
+# Upgrade pip
 RUN pip install -q --upgrade pip
 
-# Install pipenv and distlib in the virtual environment
+# Install pipenv and distlib
 RUN pip install -q --ignore-installed distlib pipenv
 
-# Copy and install requirements in the virtual environment
+# Install requirements
 COPY requirements.txt .
 RUN pip install -q -r requirements.txt
 
-# Stage 2: Execution environment
-FROM alpine:3.19 as execute
+# Stage 2: Runtime
+FROM alpine:3.19
 WORKDIR /app
 
 # Install runtime dependencies
@@ -30,12 +30,12 @@ RUN apk --no-cache -q add \
     aria2 \
     ffmpeg
 
-# Copy virtual environment from prepare_env stage
+# Copy virtual environment from build stage
 COPY --from=prepare_env /app/venv /app/venv
 ENV PATH="/app/venv/bin:$PATH" VIRTUAL_ENV="/app/venv"
 
 # Copy application code
 COPY bot bot
 
-# Run the application
+# Command to run the bot
 CMD ["python3", "-m", "bot"]
