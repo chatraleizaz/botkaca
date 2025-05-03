@@ -1,4 +1,4 @@
-git+https://github.com/prgofficial/pyrogram.git@asyncio
+pyrogram==2.0.106
 tgcrypto==1.2.5
 appdirs==1.4.4
 aria2p==0.11.4
