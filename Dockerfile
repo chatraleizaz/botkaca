@@ -1,5 +1,5 @@
 # Stage 1: Prepare environment and install dependencies
-FROM alpine:latest as prepare_env
+FROM alpine:3.19 as prepare_env
 WORKDIR /app
 
 # Install build dependencies
@@ -10,6 +10,9 @@ RUN apk --no-cache -q add \
 RUN python3 -m venv /app/venv
 ENV PATH="/app/venv/bin:$PATH" VIRTUAL_ENV="/app/venv"
 
+# Upgrade pip in the virtual environment
+RUN pip install -q --upgrade pip
+
 # Install pipenv and distlib in the virtual environment
 RUN pip install -q --ignore-installed distlib pipenv
 
@@ -18,7 +21,7 @@ COPY requirements.txt .
 RUN pip install -q -r requirements.txt
 
 # Stage 2: Execution environment
-FROM alpine:latest as execute
+FROM alpine:3.19 as execute
 WORKDIR /app
 
 # Install runtime dependencies
