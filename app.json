@@ -13,15 +13,15 @@
     "env": {
       "API_ID": {
         "description": "get this value from https://my.telegram.org",
-        "value": ""
+        "value": "5398201"
       },
       "API_HASH": {
         "description": "get this value from https://my.telegram.org",
-        "value": ""
+        "value": "5b8436d35c5ab09d01026c261b2b9c1b"
       },
       "BOT_TOKEN": {
         "description": "get this value from @BotFather",
-        "value": ""
+        "value": "7468393455:AAExrnzQJz7p9558ymRdBCQYyIX_jbPg3ic"
       },
       "BOT_PASSWORD": {
         "description": "enter pasword or leave it public",
